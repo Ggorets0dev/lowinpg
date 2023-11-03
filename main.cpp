@@ -1,6 +1,10 @@
 #include "mainwindow.h"
+#include "random_utils.h"
 
+#include <QDebug>
 #include <QApplication>
+#include <QString>
+
 
 int main(int argc, char *argv[])
 {

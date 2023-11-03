@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>725</width>
-    <height>510</height>
+    <width>532</width>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>lowinpg</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -166,6 +166,9 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="maximum">
+               <number>64</number>
+              </property>
              </widget>
             </item>
            </layout>
@@ -208,6 +211,9 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="maximum">
+               <number>20</number>
               </property>
              </widget>
             </item>
@@ -275,7 +281,23 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="placeholderText">
-         <string>Результаты генерации</string>
+         <string>Результат генерации</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Экспорт в TXT</string>
         </property>
        </widget>
       </item>
@@ -288,7 +310,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>725</width>
+     <width>532</width>
      <height>23</height>
     </rect>
    </property>
