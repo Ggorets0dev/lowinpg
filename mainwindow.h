@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include <QVector>
 #include <QDebug>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTextStream>
+#include <QFile>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +23,7 @@ public:
 
 private slots:
     void handleStartButtonClicked();
+    void handleExportButtonClicked();
 
 private:
     Ui::MainWindow *ui;

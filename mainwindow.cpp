@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "random_utils.h"
 
+#include <QIODevice>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -9,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->start_push_button, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
+    connect(ui->export_txt_push_button, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -26,6 +29,8 @@ void MainWindow::handleStartButtonClicked()
     const bool use_specsymbols= ui->specsymbs_check_box->isChecked();
 
     QVector<QString> generated_variants;
+    generated_variants.reserve(static_cast<int>(use_literals) * 2 + static_cast<int>(use_nums) + static_cast<int>(use_specsymbols) * 4);
+
     QString passwords;
 
     for (short i(0); i < passwords_cnt; i++)
@@ -38,7 +43,7 @@ void MainWindow::handleStartButtonClicked()
 
         if (use_nums)
         {
-            generated_variants.push_back(getRandomString(48, 59, password_len));
+            generated_variants.push_back(getRandomString(48, 57, password_len));
         }
 
         if (use_specsymbols)
@@ -56,4 +61,29 @@ void MainWindow::handleStartButtonClicked()
     }
 
     ui->generation_results_text_edit->setText(passwords);
+}
+
+void MainWindow::handleExportButtonClicked()
+{
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+
+    const QString file_path = dialog.getSaveFileName(nullptr, "Выберите место сохранения файла", "pswds.txt", "Текстовые файлы (*.txt)");
+
+    QFile file_out(file_path);
+    file_out.open(QIODevice::WriteOnly);
+
+    if (file_out.isOpen())
+    {
+        QTextStream stream(&file_out);
+        stream << ui->generation_results_text_edit->toPlainText();
+        file_out.close();
+
+        QMessageBox::information(this, "ОПароли записаны", "Пароли сохранены по выбранному пути");
+    }
+    else
+    {
+        QMessageBox::critical(this, "Ошибка открытия файла", "Не удалось открыть файл для сохранения паролей");
+    }
 }
