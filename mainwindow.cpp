@@ -7,7 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    this->random = new RandomGenerator();
+
+    this->ui->setupUi(this);
 
     software_info_action = new QAction("О программе", this);
     QMenu *menu = menuBar()->addMenu("Сведения");
@@ -28,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete random;
     delete ui;
 }
 
@@ -59,24 +62,24 @@ void MainWindow::handleStartButtonClicked()
     {
         if (use_literals)
         {
-            generated_variants.push_back(getRandomString(65, 90, password_len));
-            generated_variants.push_back(getRandomString(97, 122, password_len));
+            generated_variants.push_back(this->random->getRandomString(65, 90, password_len));
+            generated_variants.push_back(this->random->getRandomString(97, 122, password_len));
         }
 
         if (use_nums)
         {
-            generated_variants.push_back(getRandomString(48, 57, password_len));
+            generated_variants.push_back(this->random->getRandomString(48, 57, password_len));
         }
 
         if (use_specsymbols)
         {
-            generated_variants.push_back(getRandomString(33, 47, password_len));
-            generated_variants.push_back(getRandomString(58, 63, password_len));
-            generated_variants.push_back(getRandomString(91, 96, password_len));
-            generated_variants.push_back(getRandomString(123, 126, password_len));
+            generated_variants.push_back(this->random->getRandomString(33, 47, password_len));
+            generated_variants.push_back(this->random->getRandomString(58, 63, password_len));
+            generated_variants.push_back(this->random->getRandomString(91, 96, password_len));
+            generated_variants.push_back(this->random->getRandomString(123, 126, password_len));
         }
 
-        passwords += getMixedString(generated_variants);
+        passwords += this->random->getMixedString(generated_variants);
         passwords += '\n';
 
         generated_variants.clear();
