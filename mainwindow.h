@@ -8,6 +8,9 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QFile>
+#include "software_information_dialog.h"
+
+#define STATUSBAR_MESSAGE_TIMEOUT 2000
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,9 +30,11 @@ private slots:
     void handleClearButtonClicked();
     void handleTextChanged();
     void handleOptionChecked();
+    void handleSoftwareInfoActionClicked();
 
 private:
     Ui::MainWindow *ui;
+    QAction *software_info_action;
     std::tuple<bool, bool, bool> getCheckedOptions();
 };
 

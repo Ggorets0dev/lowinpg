@@ -10,6 +10,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    software_info_action = new QAction("О программе", this);
+    QMenu *menu = menuBar()->addMenu("Сведения");
+    menu->addAction(software_info_action);
+
     connect(ui->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
     connect(ui->exportPushButton, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
     connect(ui->clearPushButton, SIGNAL(clicked()), this, SLOT(handleClearButtonClicked()));
@@ -19,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->specsymbolsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
 
     connect(ui->passwordsTextEdit, SIGNAL(textChanged()), this, SLOT(handleTextChanged()));
+
+    connect(software_info_action, SIGNAL(triggered()), this, SLOT(handleSoftwareInfoActionClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -78,6 +84,7 @@ void MainWindow::handleStartButtonClicked()
     }
 
     ui->passwordsTextEdit->setText(passwords);
+    ui->statusbar->showMessage(QString("Пароли (%1 шт.) созданы").arg(passwords_cnt), STATUSBAR_MESSAGE_TIMEOUT);
 }
 
 void MainWindow::handleExportButtonClicked()
@@ -87,6 +94,9 @@ void MainWindow::handleExportButtonClicked()
     dialog.setAcceptMode(QFileDialog::AcceptSave);
 
     const QString file_path = dialog.getSaveFileName(nullptr, "Выберите место сохранения файла", "pswds.txt", "Текстовые файлы (*.txt)");
+
+    if (file_path.length() == 0)
+        return;
 
     QFile file_out(file_path);
     file_out.open(QIODevice::WriteOnly);
@@ -98,10 +108,12 @@ void MainWindow::handleExportButtonClicked()
         file_out.close();
 
         QMessageBox::information(this, "Пароли записаны", "Пароли сохранены по выбранному пути");
+        ui->statusbar->showMessage("Пароли сохранены", STATUSBAR_MESSAGE_TIMEOUT);
     }
     else
     {
         QMessageBox::critical(this, "Ошибка открытия файла", "Не удалось открыть файл для сохранения паролей");
+        ui->statusbar->showMessage("Не удалось сохранить пароли", STATUSBAR_MESSAGE_TIMEOUT);
     }
 }
 
@@ -127,4 +139,12 @@ void MainWindow::handleTextChanged()
 
     ui->clearPushButton->setEnabled(is_full);
     ui->exportPushButton->setEnabled(is_full);
+}
+
+void MainWindow::handleSoftwareInfoActionClicked()
+{
+    auto *dialog = new SoftwareInformationDialog(this);
+    dialog->exec();
+    this->show();
+    delete dialog;
 }

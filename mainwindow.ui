@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
-    <height>437</height>
+    <width>439</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -347,25 +347,18 @@ p, li { white-space: pre-wrap; }
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>532</width>
+     <width>439</width>
      <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Сведения</string>
-    </property>
-    <addaction name="action"/>
-   </widget>
-   <addaction name="menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
+  <action name="softwareInfoAction">
    <property name="text">
     <string>О программе</string>
    </property>
