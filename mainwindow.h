@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QIODevice>
 #include <QFile>
 #include "software_information_dialog.h"
 

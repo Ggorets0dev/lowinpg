@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "random_utils.h"
 
-#include <QIODevice>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -120,6 +119,7 @@ void MainWindow::handleExportButtonClicked()
 void MainWindow::handleClearButtonClicked()
 {
     ui->passwordsTextEdit->clear();
+    ui->statusbar->showMessage("Созданные пароли удалены", STATUSBAR_MESSAGE_TIMEOUT);
 }
 
 void MainWindow::handleOptionChecked()
@@ -143,8 +143,9 @@ void MainWindow::handleTextChanged()
 
 void MainWindow::handleSoftwareInfoActionClicked()
 {
+    ui->statusbar->showMessage("Сведения о программе отображены", STATUSBAR_MESSAGE_TIMEOUT);
+
     auto *dialog = new SoftwareInformationDialog(this);
     dialog->exec();
-    this->show();
     delete dialog;
 }

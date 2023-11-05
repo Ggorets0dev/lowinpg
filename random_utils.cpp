@@ -1,5 +1,6 @@
 #include "random_utils.h"
 
+
 unsigned long int getRandomFromInterval(unsigned short minimal, unsigned short maximal)
 {
     auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();

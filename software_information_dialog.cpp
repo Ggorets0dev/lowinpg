@@ -1,6 +1,7 @@
 #include "software_information_dialog.h"
 #include "ui_software_information_dialog.h"
 
+
 SoftwareInformationDialog::SoftwareInformationDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SoftwareInformationDialog)
