@@ -45,7 +45,7 @@
            <number>20</number>
           </property>
           <item>
-           <widget class="QCheckBox" name="literals_check_box">
+           <widget class="QCheckBox" name="literalsCheckBox">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -58,7 +58,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="nums_check_box">
+           <widget class="QCheckBox" name="numsCheckBox">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -71,7 +71,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="specsymbs_check_box">
+           <widget class="QCheckBox" name="specsymbolsCheckBox">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -159,7 +159,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="password_len_spin_box">
+             <widget class="QSpinBox" name="lenSpinBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -211,7 +211,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="passwords_cnt_spin_box">
+             <widget class="QSpinBox" name="cntSpinBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -262,23 +262,72 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="start_push_button">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Старт</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="startPushButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Старт</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exportPushButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Экспорт в TXT</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="clearPushButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Очистить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QTextEdit" name="generation_results_text_edit">
+       <widget class="QTextEdit" name="passwordsTextEdit">
         <property name="readOnly">
          <bool>true</bool>
         </property>
@@ -291,22 +340,6 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="placeholderText">
          <string>Результат генерации</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="export_txt_push_button">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Экспорт в TXT</string>
         </property>
        </widget>
       </item>

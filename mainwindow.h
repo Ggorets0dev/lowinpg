@@ -24,9 +24,13 @@ public:
 private slots:
     void handleStartButtonClicked();
     void handleExportButtonClicked();
+    void handleClearButtonClicked();
+    void handleTextChanged();
+    void handleOptionChecked();
 
 private:
     Ui::MainWindow *ui;
+    std::tuple<bool, bool, bool> getCheckedOptions();
 };
 
 #endif // MAINWINDOW_H

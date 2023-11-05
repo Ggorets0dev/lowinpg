@@ -10,8 +10,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->start_push_button, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
-    connect(ui->export_txt_push_button, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
+    connect(ui->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
+    connect(ui->exportPushButton, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
+    connect(ui->clearPushButton, SIGNAL(clicked()), this, SLOT(handleClearButtonClicked()));
+
+    connect(ui->literalsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
+    connect(ui->numsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
+    connect(ui->specsymbolsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
+
+    connect(ui->passwordsTextEdit, SIGNAL(textChanged()), this, SLOT(handleTextChanged()));
 }
 
 MainWindow::~MainWindow()
@@ -19,14 +26,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+std::tuple<bool, bool, bool> MainWindow::getCheckedOptions()
+{
+    const bool use_literals = ui->literalsCheckBox->isChecked();
+    const bool use_nums = ui->numsCheckBox->isChecked();
+    const bool use_specsymbols= ui->specsymbolsCheckBox->isChecked();
+
+    return std::make_tuple(use_literals, use_nums, use_specsymbols);
+}
+
 void MainWindow::handleStartButtonClicked()
 {
-    const unsigned short password_len = ui->password_len_spin_box->value();
-    const unsigned short passwords_cnt = ui->passwords_cnt_spin_box->value();
+    const unsigned short password_len = ui->lenSpinBox->value();
+    const unsigned short passwords_cnt = ui->cntSpinBox->value();
 
-    const bool use_literals = ui->literals_check_box->isChecked();
-    const bool use_nums = ui->nums_check_box->isChecked();
-    const bool use_specsymbols= ui->specsymbs_check_box->isChecked();
+    auto checked_options = getCheckedOptions();
+
+    bool use_literals, use_nums, use_specsymbols;
+    std::tie(use_literals, use_nums, use_specsymbols) = checked_options;
 
     QVector<QString> generated_variants;
     generated_variants.reserve(static_cast<int>(use_literals) * 2 + static_cast<int>(use_nums) + static_cast<int>(use_specsymbols) * 4);
@@ -60,7 +77,7 @@ void MainWindow::handleStartButtonClicked()
         generated_variants.clear();
     }
 
-    ui->generation_results_text_edit->setText(passwords);
+    ui->passwordsTextEdit->setText(passwords);
 }
 
 void MainWindow::handleExportButtonClicked()
@@ -77,13 +94,37 @@ void MainWindow::handleExportButtonClicked()
     if (file_out.isOpen())
     {
         QTextStream stream(&file_out);
-        stream << ui->generation_results_text_edit->toPlainText();
+        stream << ui->passwordsTextEdit->toPlainText();
         file_out.close();
 
-        QMessageBox::information(this, "ОПароли записаны", "Пароли сохранены по выбранному пути");
+        QMessageBox::information(this, "Пароли записаны", "Пароли сохранены по выбранному пути");
     }
     else
     {
         QMessageBox::critical(this, "Ошибка открытия файла", "Не удалось открыть файл для сохранения паролей");
     }
+}
+
+void MainWindow::handleClearButtonClicked()
+{
+    ui->passwordsTextEdit->clear();
+}
+
+void MainWindow::handleOptionChecked()
+{
+    auto checked_options = getCheckedOptions();
+
+    bool use_literals, use_nums, use_specsymbols;
+    std::tie(use_literals, use_nums, use_specsymbols) = checked_options;
+
+    ui->startPushButton->setEnabled(use_literals || use_nums || use_specsymbols);
+}
+
+void MainWindow::handleTextChanged()
+{
+    const auto passwords = ui->passwordsTextEdit->toPlainText();
+    const bool is_full = passwords.length() > 0;
+
+    ui->clearPushButton->setEnabled(is_full);
+    ui->exportPushButton->setEnabled(is_full);
 }
