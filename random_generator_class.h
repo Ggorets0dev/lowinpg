@@ -13,15 +13,15 @@
 class RandomGenerator
 {
 private:
-    std::mt19937 *generator;
+    std::mt19937 *generator_;
 
 public:
     RandomGenerator();
     ~RandomGenerator();
 
-    unsigned long int getRandomFromInterval(unsigned short minimal, unsigned short maximal);
+    ushort getRandomFromInterval(ushort minimal, ushort maximal);
 
-    QString getRandomString(unsigned short min_char_inx, unsigned short max_char_inx, const unsigned short size);
+    QString getRandomString(ushort min_char_inx, ushort max_char_inx, const ushort size);
 
     QString getMixedString(QVector<QString>& variants);
 };

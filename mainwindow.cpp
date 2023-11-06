@@ -1,52 +1,52 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "random_utils.h"
+#include "random_generator_class.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui_(new Ui::MainWindow)
 {
-    this->random = new RandomGenerator();
+    this->random_ = new RandomGenerator();
 
-    this->ui->setupUi(this);
+    this->ui_->setupUi(this);
 
-    software_info_action = new QAction("О программе", this);
+    this->software_info_action_ = new QAction("О программе", this);
     QMenu *menu = menuBar()->addMenu("Сведения");
-    menu->addAction(software_info_action);
+    menu->addAction(this->software_info_action_);
 
-    connect(ui->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
-    connect(ui->exportPushButton, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
-    connect(ui->clearPushButton, SIGNAL(clicked()), this, SLOT(handleClearButtonClicked()));
+    connect(ui_->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
+    connect(ui_->exportPushButton, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
+    connect(ui_->clearPushButton, SIGNAL(clicked()), this, SLOT(handleClearButtonClicked()));
 
-    connect(ui->literalsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
-    connect(ui->numsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
-    connect(ui->specsymbolsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
+    connect(ui_->literalsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
+    connect(ui_->numsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
+    connect(ui_->specsymbolsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
 
-    connect(ui->passwordsTextEdit, SIGNAL(textChanged()), this, SLOT(handleTextChanged()));
+    connect(ui_->passwordsTextEdit, SIGNAL(textChanged()), this, SLOT(handleTextChanged()));
 
-    connect(software_info_action, SIGNAL(triggered()), this, SLOT(handleSoftwareInfoActionClicked()));
+    connect(this->software_info_action_, SIGNAL(triggered()), this, SLOT(handleSoftwareInfoActionClicked()));
 }
 
 MainWindow::~MainWindow()
 {
-    delete random;
-    delete ui;
+    delete random_;
+    delete ui_;
 }
 
 std::tuple<bool, bool, bool> MainWindow::getCheckedOptions()
 {
-    const bool use_literals = ui->literalsCheckBox->isChecked();
-    const bool use_nums = ui->numsCheckBox->isChecked();
-    const bool use_specsymbols= ui->specsymbolsCheckBox->isChecked();
+    const bool use_literals = ui_->literalsCheckBox->isChecked();
+    const bool use_nums = ui_->numsCheckBox->isChecked();
+    const bool use_specsymbols= ui_->specsymbolsCheckBox->isChecked();
 
     return std::make_tuple(use_literals, use_nums, use_specsymbols);
 }
 
 void MainWindow::handleStartButtonClicked()
 {
-    const unsigned short password_len = ui->lenSpinBox->value();
-    const unsigned short passwords_cnt = ui->cntSpinBox->value();
+    const unsigned short password_len = ui_->lenSpinBox->value();
+    const unsigned short passwords_cnt = ui_->cntSpinBox->value();
 
     auto checked_options = getCheckedOptions();
 
@@ -62,31 +62,31 @@ void MainWindow::handleStartButtonClicked()
     {
         if (use_literals)
         {
-            generated_variants.push_back(this->random->getRandomString(65, 90, password_len));
-            generated_variants.push_back(this->random->getRandomString(97, 122, password_len));
+            generated_variants.push_back(this->random_->getRandomString(65, 90, password_len));
+            generated_variants.push_back(this->random_->getRandomString(97, 122, password_len));
         }
 
         if (use_nums)
         {
-            generated_variants.push_back(this->random->getRandomString(48, 57, password_len));
+            generated_variants.push_back(this->random_->getRandomString(48, 57, password_len));
         }
 
         if (use_specsymbols)
         {
-            generated_variants.push_back(this->random->getRandomString(33, 47, password_len));
-            generated_variants.push_back(this->random->getRandomString(58, 63, password_len));
-            generated_variants.push_back(this->random->getRandomString(91, 96, password_len));
-            generated_variants.push_back(this->random->getRandomString(123, 126, password_len));
+            generated_variants.push_back(this->random_->getRandomString(33, 47, password_len));
+            generated_variants.push_back(this->random_->getRandomString(58, 63, password_len));
+            generated_variants.push_back(this->random_->getRandomString(91, 96, password_len));
+            generated_variants.push_back(this->random_->getRandomString(123, 126, password_len));
         }
 
-        passwords += this->random->getMixedString(generated_variants);
+        passwords += this->random_->getMixedString(generated_variants);
         passwords += '\n';
 
         generated_variants.clear();
     }
 
-    ui->passwordsTextEdit->setText(passwords);
-    ui->statusbar->showMessage(QString("Пароли (%1 шт.) созданы").arg(passwords_cnt), STATUSBAR_MESSAGE_TIMEOUT);
+    ui_->passwordsTextEdit->setText(passwords);
+    ui_->statusbar->showMessage(QString("Пароли (%1 шт.) созданы").arg(passwords_cnt), STATUSBAR_MESSAGE_TIMEOUT);
 }
 
 void MainWindow::handleExportButtonClicked()
@@ -106,23 +106,23 @@ void MainWindow::handleExportButtonClicked()
     if (file_out.isOpen())
     {
         QTextStream stream(&file_out);
-        stream << ui->passwordsTextEdit->toPlainText();
+        stream << ui_->passwordsTextEdit->toPlainText();
         file_out.close();
 
         QMessageBox::information(this, "Пароли записаны", "Пароли сохранены по выбранному пути");
-        ui->statusbar->showMessage("Пароли сохранены", STATUSBAR_MESSAGE_TIMEOUT);
+        ui_->statusbar->showMessage("Пароли сохранены", STATUSBAR_MESSAGE_TIMEOUT);
     }
     else
     {
         QMessageBox::critical(this, "Ошибка открытия файла", "Не удалось открыть файл для сохранения паролей");
-        ui->statusbar->showMessage("Не удалось сохранить пароли", STATUSBAR_MESSAGE_TIMEOUT);
+        ui_->statusbar->showMessage("Не удалось сохранить пароли", STATUSBAR_MESSAGE_TIMEOUT);
     }
 }
 
 void MainWindow::handleClearButtonClicked()
 {
-    ui->passwordsTextEdit->clear();
-    ui->statusbar->showMessage("Созданные пароли удалены", STATUSBAR_MESSAGE_TIMEOUT);
+    ui_->passwordsTextEdit->clear();
+    ui_->statusbar->showMessage("Созданные пароли удалены", STATUSBAR_MESSAGE_TIMEOUT);
 }
 
 void MainWindow::handleOptionChecked()
@@ -132,21 +132,21 @@ void MainWindow::handleOptionChecked()
     bool use_literals, use_nums, use_specsymbols;
     std::tie(use_literals, use_nums, use_specsymbols) = checked_options;
 
-    ui->startPushButton->setEnabled(use_literals || use_nums || use_specsymbols);
+    ui_->startPushButton->setEnabled(use_literals || use_nums || use_specsymbols);
 }
 
 void MainWindow::handleTextChanged()
 {
-    const auto passwords = ui->passwordsTextEdit->toPlainText();
+    const auto passwords = ui_->passwordsTextEdit->toPlainText();
     const bool is_full = passwords.length() > 0;
 
-    ui->clearPushButton->setEnabled(is_full);
-    ui->exportPushButton->setEnabled(is_full);
+    ui_->clearPushButton->setEnabled(is_full);
+    ui_->exportPushButton->setEnabled(is_full);
 }
 
 void MainWindow::handleSoftwareInfoActionClicked()
 {
-    ui->statusbar->showMessage("Сведения о программе отображены", STATUSBAR_MESSAGE_TIMEOUT);
+    ui_->statusbar->showMessage("Сведения о программе отображены", STATUSBAR_MESSAGE_TIMEOUT);
 
     auto *dialog = new SoftwareInformationDialog(this);
     dialog->exec();

@@ -1,32 +1,32 @@
-#include "random_utils.h"
+#include "random_generator_class.h"
 
 
 RandomGenerator::RandomGenerator()
 {
     auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    this->generator = new std::mt19937(seed);
+    this->generator_ = new std::mt19937(seed);
 }
 
 RandomGenerator::~RandomGenerator()
 {
-    delete this->generator;
+    delete this->generator_;
 }
 
-unsigned long int RandomGenerator::getRandomFromInterval(unsigned short minimal, unsigned short maximal)
+ushort RandomGenerator::getRandomFromInterval(ushort minimal, ushort maximal)
 {
     unsigned long int random_num;
-    random_num = this->generator->operator()();
+    random_num = this->generator_->operator()();
 
     return minimal + random_num % (maximal + 1 - minimal);
 }
 
-QString RandomGenerator::getRandomString(unsigned short min_char_inx, unsigned short max_char_inx, const unsigned short size)
+QString RandomGenerator::getRandomString(ushort min_char_inx, ushort max_char_inx, const ushort size)
 {
     QString result;
     char symbol;
     unsigned long int random_num;
 
-    for (short i(0); i < size; i++)
+    for (ushort i(0); i < size; i++)
     {
         random_num = getRandomFromInterval(min_char_inx, max_char_inx);
         symbol = static_cast<char>(random_num);
@@ -38,13 +38,13 @@ QString RandomGenerator::getRandomString(unsigned short min_char_inx, unsigned s
 
 QString RandomGenerator::getMixedString(QVector<QString>& variants)
 {
-    const unsigned short vec_size = variants.size();
-    const unsigned short str_size = variants.at(0).length();
-    unsigned short var_inx;
+    const ushort vec_size = variants.size();
+    const ushort str_size = variants.at(0).length();
 
+    ushort var_inx;
     QString result;
 
-    for (short i(0); i < str_size; i++)
+    for (ushort i(0); i < str_size; i++)
     {
         var_inx = getRandomFromInterval(0, vec_size - 1);
         result += variants.at(var_inx).at(i);

@@ -9,7 +9,7 @@
 #include <QTextStream>
 #include <QIODevice>
 #include <QFile>
-#include "random_utils.h"
+#include "random_generator_class.h"
 #include "software_information_dialog.h"
 
 #define STATUSBAR_MESSAGE_TIMEOUT 2000
@@ -35,10 +35,11 @@ private slots:
     void handleSoftwareInfoActionClicked();
 
 private:
-    Ui::MainWindow *ui;
-    QAction *software_info_action;
+    Ui::MainWindow *ui_;
+    QAction *software_info_action_;
+    RandomGenerator *random_;
+
     std::tuple<bool, bool, bool> getCheckedOptions();
-    RandomGenerator *random;
 };
 
 #endif // MAINWINDOW_H
