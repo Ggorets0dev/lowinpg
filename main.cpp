@@ -5,10 +5,14 @@
 #include <QString>
 #include <QStyle>
 #include <QDesktopWidget>
+#include <QFont>
 
 
 int main(int argc, char *argv[])
 {
+    QFont font("Verdana", 10);
+    QApplication::setFont(font);
+
     QApplication a(argc, argv);
     MainWindow main_window;
 

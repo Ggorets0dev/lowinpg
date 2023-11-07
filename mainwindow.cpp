@@ -45,8 +45,8 @@ std::tuple<bool, bool, bool> MainWindow::getCheckedOptions()
 
 void MainWindow::handleStartButtonClicked()
 {
-    const unsigned short password_len = ui_->lenSpinBox->value();
-    const unsigned short passwords_cnt = ui_->cntSpinBox->value();
+    const ushort password_len = ui_->lenSpinBox->value();
+    const ushort passwords_cnt = ui_->cntSpinBox->value();
 
     auto checked_options = getCheckedOptions();
 
@@ -58,7 +58,7 @@ void MainWindow::handleStartButtonClicked()
 
     QString passwords;
 
-    for (short i(0); i < passwords_cnt; i++)
+    for (ushort i(0); i < passwords_cnt; i++)
     {
         if (use_literals)
         {

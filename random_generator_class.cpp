@@ -14,7 +14,7 @@ RandomGenerator::~RandomGenerator()
 
 ushort RandomGenerator::getRandomFromInterval(ushort minimal, ushort maximal)
 {
-    unsigned long int random_num;
+    ushort random_num;
     random_num = this->generator_->operator()();
 
     return minimal + random_num % (maximal + 1 - minimal);
@@ -23,13 +23,11 @@ ushort RandomGenerator::getRandomFromInterval(ushort minimal, ushort maximal)
 QString RandomGenerator::getRandomString(ushort min_char_inx, ushort max_char_inx, const ushort size)
 {
     QString result;
-    char symbol;
-    unsigned long int random_num;
 
     for (ushort i(0); i < size; i++)
     {
-        random_num = getRandomFromInterval(min_char_inx, max_char_inx);
-        symbol = static_cast<char>(random_num);
+        ushort random_num = getRandomFromInterval(min_char_inx, max_char_inx);
+        char symbol = static_cast<char>(random_num);
         result += symbol;
     }
 

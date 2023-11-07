@@ -1,7 +1,7 @@
 #ifndef SOFTWARE_INFORMATION_DIALOG_H
 #define SOFTWARE_INFORMATION_DIALOG_H
 
-#define VERSION "1.1.1"
+#define VERSION "1.1.2"
 #define DEVELOPER "Ggorets0dev"
 #define REPOSITORY "https://github.com/Ggorets0dev/lowinpg"
 
