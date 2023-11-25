@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-    QFont font("Verdana", 10);
+    QFont font("Verdana", 9);
     QApplication::setFont(font);
 
     QApplication a(argc, argv);

@@ -6,6 +6,8 @@ SoftwareInformationDialog::SoftwareInformationDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SoftwareInformationDialog)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
     ui->setupUi(this);
 
     ui->version_label->setText(VERSION);
