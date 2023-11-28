@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "random_generator_class.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui_(new Ui::MainWindow)
@@ -18,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui_->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
     connect(ui_->exportPushButton, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
     connect(ui_->clearPushButton, SIGNAL(clicked()), this, SLOT(handleClearButtonClicked()));
+    connect(ui_->copyPushButton, SIGNAL(clicked()), this, SLOT(handleCopyButtonClicked()));
 
     connect(ui_->literalsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
     connect(ui_->numsCheckBox, SIGNAL(clicked()), this, SLOT(handleOptionChecked()));
@@ -34,7 +34,7 @@ MainWindow::~MainWindow()
     delete ui_;
 }
 
-std::tuple<bool, bool, bool> MainWindow::getCheckedOptions()
+CheckedOptions MainWindow::getCheckedOptions()
 {
     const bool use_literals = ui_->literalsCheckBox->isChecked();
     const bool use_nums = ui_->numsCheckBox->isChecked();
@@ -53,7 +53,7 @@ void MainWindow::handleStartButtonClicked()
     bool use_literals, use_nums, use_specsymbols;
     std::tie(use_literals, use_nums, use_specsymbols) = checked_options;
 
-    QVector<QString> generated_variants;
+    Passwords generated_variants;
     generated_variants.reserve(static_cast<int>(use_literals) * 2 + static_cast<int>(use_nums) + static_cast<int>(use_specsymbols) * 4);
 
     QString passwords;
@@ -87,6 +87,18 @@ void MainWindow::handleStartButtonClicked()
 
     ui_->passwordsTextEdit->setText(passwords);
     ui_->statusbar->showMessage(QString("Пароли (%1 шт.) созданы").arg(passwords_cnt), STATUSBAR_MESSAGE_TIMEOUT);
+}
+
+void MainWindow::handleCopyButtonClicked()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+
+    QString passwords = ui_->passwordsTextEdit->toPlainText();
+    passwords.chop(1);
+
+    clipboard->setText(passwords);
+
+    ui_->statusbar->showMessage("Созданные пароли скопированы в буфер обмена", STATUSBAR_MESSAGE_TIMEOUT);
 }
 
 void MainWindow::handleExportButtonClicked()
@@ -142,6 +154,7 @@ void MainWindow::handleTextChanged()
 
     ui_->clearPushButton->setEnabled(is_full);
     ui_->exportPushButton->setEnabled(is_full);
+    ui_->copyPushButton->setEnabled(is_full);
 }
 
 void MainWindow::handleSoftwareInfoActionClicked()

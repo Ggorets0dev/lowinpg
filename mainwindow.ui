@@ -222,7 +222,7 @@
                <number>1</number>
               </property>
               <property name="maximum">
-               <number>20</number>
+               <number>50</number>
               </property>
              </widget>
             </item>
@@ -280,6 +280,13 @@
          </widget>
         </item>
         <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="exportPushButton">
           <property name="enabled">
            <bool>false</bool>
@@ -292,6 +299,23 @@
           </property>
           <property name="text">
            <string>Экспорт в TXT</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="copyPushButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Копировать</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
          </widget>
         </item>

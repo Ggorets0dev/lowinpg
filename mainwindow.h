@@ -9,10 +9,13 @@
 #include <QTextStream>
 #include <QIODevice>
 #include <QFile>
+#include <QClipboard>
 #include "random_generator_class.h"
 #include "software_information_dialog.h"
 
 #define STATUSBAR_MESSAGE_TIMEOUT 2000
+
+typedef std::tuple<bool, bool, bool> CheckedOptions;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,6 +33,7 @@ private slots:
     void handleStartButtonClicked();
     void handleExportButtonClicked();
     void handleClearButtonClicked();
+    void handleCopyButtonClicked();
     void handleTextChanged();
     void handleOptionChecked();
     void handleSoftwareInfoActionClicked();
