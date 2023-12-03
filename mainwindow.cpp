@@ -53,37 +53,47 @@ void MainWindow::handleStartButtonClicked()
     bool use_literals, use_nums, use_specsymbols;
     std::tie(use_literals, use_nums, use_specsymbols) = checked_options;
 
-    Passwords generated_variants;
-    generated_variants.reserve(static_cast<int>(use_literals) * 2 + static_cast<int>(use_nums) + static_cast<int>(use_specsymbols) * 4);
+    Symbols all_source_symbols;
 
     QString passwords;
 
-    for (ushort i(0); i < passwords_cnt; i++)
+    if (use_literals)
     {
-        if (use_literals)
-        {
-            generated_variants.push_back(this->random_->getRandomString(65, 90, password_len));
-            generated_variants.push_back(this->random_->getRandomString(97, 122, password_len));
-        }
-
-        if (use_nums)
-        {
-            generated_variants.push_back(this->random_->getRandomString(48, 57, password_len));
-        }
-
-        if (use_specsymbols)
-        {
-            generated_variants.push_back(this->random_->getRandomString(33, 47, password_len));
-            generated_variants.push_back(this->random_->getRandomString(58, 63, password_len));
-            generated_variants.push_back(this->random_->getRandomString(91, 96, password_len));
-            generated_variants.push_back(this->random_->getRandomString(123, 126, password_len));
-        }
-
-        passwords += this->random_->getMixedString(generated_variants);
-        passwords += '\n';
-
-        generated_variants.clear();
+        all_source_symbols += this->random_->getSymbols(65, 90);
+        all_source_symbols += this->random_->getSymbols(97, 122);
     }
+
+    if (use_nums)
+    {
+        all_source_symbols += this->random_->getSymbols(48, 57);
+    }
+
+    if (use_specsymbols)
+    {
+        all_source_symbols += this->random_->getSymbols(33, 47);
+        all_source_symbols += this->random_->getSymbols(58, 63);
+        all_source_symbols += this->random_->getSymbols(91, 96);
+        all_source_symbols += this->random_->getSymbols(123, 126);
+    }
+
+    ushort i(0);
+    while (i < passwords_cnt)
+    {
+        auto password = this->random_->getRandomString(all_source_symbols, password_len);
+
+        const bool have_literals = password.contains(QRegularExpression("[A-Za-z]"));
+        const bool have_nums = password.contains(QRegularExpression("[0-9]"));
+        const bool have_specsymbols = password.contains(QRegularExpression("[^A-Za-z0-9]"));
+
+        if ((use_literals && !have_literals) || (use_nums && !have_nums) || (use_specsymbols && !have_specsymbols))
+            continue;
+
+        passwords += password;
+        passwords += '\n';
+        i++;
+    }
+
+    passwords.chop(1);
 
     ui_->passwordsTextEdit->setText(passwords);
     ui_->statusbar->showMessage(QString("Пароли (%1 шт.) созданы").arg(passwords_cnt), STATUSBAR_MESSAGE_TIMEOUT);
@@ -94,7 +104,6 @@ void MainWindow::handleCopyButtonClicked()
     QClipboard *clipboard = QApplication::clipboard();
 
     QString passwords = ui_->passwordsTextEdit->toPlainText();
-    passwords.chop(1);
 
     clipboard->setText(passwords);
 

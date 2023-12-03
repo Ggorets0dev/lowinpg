@@ -9,6 +9,7 @@
 #include <QTextStream>
 #include <QIODevice>
 #include <QFile>
+#include <QRegularExpression>
 #include <QClipboard>
 #include "random_generator_class.h"
 #include "software_information_dialog.h"

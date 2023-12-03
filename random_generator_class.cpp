@@ -20,33 +20,26 @@ ushort RandomGenerator::getRandomFromInterval(ushort minimal, ushort maximal)
     return minimal + random_num % (maximal + 1 - minimal);
 }
 
-QString RandomGenerator::getRandomString(ushort min_char_inx, ushort max_char_inx, const ushort size)
+QString RandomGenerator::getRandomString(Symbols& source_chars, const ushort size)
 {
+    const ushort source_chars_max_inx = source_chars.size() - 1;
     QString result;
 
     for (ushort i(0); i < size; i++)
     {
-        ushort random_num = getRandomFromInterval(min_char_inx, max_char_inx);
-        char symbol = static_cast<char>(random_num);
-        result += symbol;
+        ushort random_num = getRandomFromInterval(0, source_chars_max_inx);
+        result += source_chars[random_num];
     }
 
     return result;
 }
 
-QString RandomGenerator::getMixedString(QVector<QString>& variants)
+Symbols RandomGenerator::getSymbols(ushort min_char_inx, ushort max_char_inx)
 {
-    const ushort vec_size = variants.size();
-    const ushort str_size = variants.at(0).length();
+    Symbols characters;
 
-    ushort var_inx;
-    QString result;
+    for (ushort i(min_char_inx); i <= max_char_inx; i++)
+        characters.push_back(static_cast<char>(i));
 
-    for (ushort i(0); i < str_size; i++)
-    {
-        var_inx = getRandomFromInterval(0, vec_size - 1);
-        result += variants.at(var_inx).at(i);
-    }
-
-    return result;
+    return characters;
 }
