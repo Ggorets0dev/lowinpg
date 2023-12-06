@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>lowinpg</string>
+   <string>LowinPG</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -52,6 +52,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Наличие букв верхнего и нижнего регистра в пароле</string>
+            </property>
             <property name="text">
              <string>Буквы</string>
             </property>
@@ -65,6 +68,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Наличие цифр в пароле</string>
+            </property>
             <property name="text">
              <string>Цифры</string>
             </property>
@@ -77,6 +83,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Наличие специальных символов в пароле</string>
             </property>
             <property name="text">
              <string>Специальные символы</string>
@@ -153,6 +162,9 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="toolTip">
+               <string>Фиксированный размер пароля (от 4 до 64)</string>
+              </property>
               <property name="text">
                <string>Длина пароля:</string>
               </property>
@@ -204,6 +216,9 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Количество паролей, которые будут сгенерированы (от 1 до 50)</string>
               </property>
               <property name="text">
                <string>Количество паролей:</string>
