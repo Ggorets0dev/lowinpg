@@ -3,20 +3,17 @@
 
 #include <QMainWindow>
 #include <QVector>
-#include <QDebug>
+#include <QThread>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTextStream>
 #include <QIODevice>
 #include <QFile>
-#include <QRegularExpression>
 #include <QClipboard>
-#include "random_generator_class.h"
 #include "software_information_dialog.h"
+#include "password_creator_class.h"
 
 #define STATUSBAR_MESSAGE_TIMEOUT 2000
-
-typedef std::tuple<bool, bool, bool> CheckedOptions;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,6 +27,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void start_creation(void);
+
 private slots:
     void handleStartButtonClicked();
     void handleExportButtonClicked();
@@ -39,10 +39,14 @@ private slots:
     void handleOptionChecked();
     void handleSoftwareInfoActionClicked();
 
+    void handlePasswordsCreated(QString passwords);
+    void handleWorkerFinished();
+
 private:
     Ui::MainWindow *ui_;
     QAction *software_info_action_;
-    RandomGenerator *random_;
+    PasswordCreator* password_creator_;
+    QThread* worker_thread_;
 
     std::tuple<bool, bool, bool> getCheckedOptions();
 };

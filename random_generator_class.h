@@ -4,7 +4,6 @@
 #include <random>
 #include <chrono>
 #include <QVector>
-#include <QDebug>
 
 #define CHAR_MIN_INX 33
 #define CHAR_MAX_INX 126

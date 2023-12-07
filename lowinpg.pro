@@ -20,11 +20,13 @@ UI_DIR = $$PWD
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    password_creator_class.cpp \
     random_generator_class.cpp \
     software_information_dialog.cpp
 
 HEADERS += \
     mainwindow.h \
+    password_creator_class.h \
     random_generator_class.h \
     software_information_dialog.h
 
