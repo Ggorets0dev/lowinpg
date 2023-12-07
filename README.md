@@ -38,13 +38,13 @@
 
 | Наименование системы                 | Семейство систем | Версия приложения | Дата       |
 | ------------------------------------ | ---------------- | ----------------- | ---------- |
-| Astra Linux CE 2.12.46 (Orel) x86_64 | Debian Linux     | 1.2.1             | 03.12.2023 |
-| Windows 10 Pro 22H2 64-bit           | Windows          | 1.2.1             | 03.12.2023 |
-| Windows 10 Pro 22H2 64-bit           | Windows          | 1.2.0             | 28.11.2023 |
-| Astra Linux CE 2.12.46 (Orel) x86_64 | Debian Linux     | 1.2.0             | 28.11.2023 |
+| Astra Linux CE 2.12.46 (Orel) x86_64 | Debian Linux     | 1.3.0             | 07.12.2023 |
+| Windows 10 Pro 22H2 64-bit           | Windows          | 1.3.0             | 07.12.2023 |
+| Astra Linux CE 2.12.46 (Orel) x86_64 | Debian Linux     | 1.2.+             | 03.12.2023 |
+| Windows 10 Pro 22H2 64-bit           | Windows          | 1.2.+             | 03.12.2023 |
 | Windows 10 Pro 22H2 64-bit           | Windows          | 1.1.+             | 25.11.2023 |
 | Astra Linux CE 2.12.46 (Orel) x86_64 | Debian Linux     | 1.1.+             | 25.11.2023 |
-| Astra Linux CE 2.12.46 (Orel) x86_64 | Debian Linux     | 1.0.0             | 06.11.202  |
+| Astra Linux CE 2.12.46 (Orel) x86_64 | Debian Linux     | 1.0.0             | 06.11.2023 |
 
 ## Интерфейс
 
