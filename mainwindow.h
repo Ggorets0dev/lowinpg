@@ -19,15 +19,25 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+/**
+ * @brief Главная форма приложения
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Создание и настройка главной формы приложения
+     */
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 signals:
+    /**
+     * @brief Сигнал для запуска стороннего потока по созданию паролей
+     */
     void start_creation(void);
 
 private slots:
@@ -38,7 +48,6 @@ private slots:
     void handleTextChanged();
     void handleOptionChecked();
     void handleSoftwareInfoActionClicked();
-
     void handlePasswordsCreated(QString passwords);
     void handleWorkerFinished();
 
