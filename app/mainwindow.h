@@ -32,12 +32,6 @@ public:
      */
     MainWindow(QWidget *parent = nullptr);
 
-signals:
-    /**
-     * @brief Сигнал для запуска стороннего потока по созданию паролей
-     */
-    void start_creation(void);
-
 private slots:
     void lockRunningState();
     void unlockRunningState();
