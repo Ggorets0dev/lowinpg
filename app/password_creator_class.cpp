@@ -5,11 +5,6 @@ PasswordCreator::~PasswordCreator()
     delete random_generator_;
 }
 
-ushort PasswordCreator::getPasswordsCount()
-{
-    return this->passwords_count_;
-}
-
 void PasswordCreator::setParams(ushort pswds_len, ushort pswds_cnt, CheckedOptions options)
 {
     this->passwords_length_ = pswds_len;

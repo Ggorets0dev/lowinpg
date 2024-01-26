@@ -12,18 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
     QMenu *menu = menuBar()->addMenu("Сведения");
     menu->addAction(software_info_action_);
 
-    password_creator_ = new PasswordCreator();
-
-    connect(this, SIGNAL(start_creation()), password_creator_, SLOT(createPasswords()));
-    connect(password_creator_, SIGNAL(created(QString)), this, SLOT(handlePasswordsCreated(QString)));
-    connect(password_creator_, SIGNAL(finished()), this, SLOT(handleWorkerFinished()));
-
-    worker_thread_ = new QThread(this);
-    password_creator_->moveToThread(worker_thread_);
-    worker_thread_->start();
-
-    connect(this, SIGNAL(destroyed()), worker_thread_, SLOT(quit()));
-
     connect(ui_->startPushButton, SIGNAL(clicked()), this, SLOT(handleStartButtonClicked()));
     connect(ui_->exportPushButton, SIGNAL(clicked()), this, SLOT(handleExportButtonClicked()));
     connect(ui_->clearPushButton, SIGNAL(clicked()), this, SLOT(handleClearButtonClicked()));
@@ -36,12 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui_->passwordsTextEdit, SIGNAL(textChanged()), this, SLOT(handleTextChanged()));
 
     connect(software_info_action_, SIGNAL(triggered()), this, SLOT(handleSoftwareInfoActionClicked()));
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui_;
-    delete password_creator_;
 }
 
 CheckedOptions MainWindow::getCheckedOptions()
@@ -59,11 +41,27 @@ void MainWindow::handleStartButtonClicked()
     const ushort passwords_count = ui_->cntSpinBox->value();
     auto checked_options = getCheckedOptions();
 
-    password_creator_->setParams(passwords_length, passwords_count, checked_options);
+    auto password_creator = new PasswordCreator();
+    auto worker_thread = new QThread();
+
+    password_creator->setParams(passwords_length, passwords_count, checked_options);
+    password_creator->moveToThread(worker_thread);
+
+    connect(worker_thread, SIGNAL(started()), password_creator, SLOT(createPasswords()));
+    connect(password_creator, SIGNAL(created(QString)), this, SLOT(handlePasswordsCreated(QString)));
+
+    connect(password_creator, SIGNAL(finished()), this, SLOT(handleWorkerFinished()));
+    connect(password_creator, SIGNAL(finished()), worker_thread, SLOT(quit()));
+
+    connect(password_creator, SIGNAL(finished()), password_creator, SLOT(deleteLater()));
+    connect(worker_thread, SIGNAL(finished()), worker_thread, SLOT(deleteLater()));
+
+    connect(worker_thread, SIGNAL(started()), this, SLOT(lockRunningState()));
+    connect(worker_thread, SIGNAL(finished()), this, SLOT(unlockRunningState()));
+
+    worker_thread->start();
 
     this->ui_->startPushButton->setEnabled(false);
-
-    emit start_creation();
 }
 
 void MainWindow::handleCopyButtonClicked()
@@ -120,7 +118,7 @@ void MainWindow::handleOptionChecked()
     bool use_literals, use_nums, use_specsymbols;
     std::tie(use_literals, use_nums, use_specsymbols) = checked_options;
 
-    ui_->startPushButton->setEnabled(use_literals || use_nums || use_specsymbols);
+    ui_->startPushButton->setEnabled((use_literals || use_nums || use_specsymbols) && !is_running_);
 }
 
 void MainWindow::handleTextChanged()
@@ -139,6 +137,7 @@ void MainWindow::handleSoftwareInfoActionClicked()
 
     auto *dialog = new SoftwareInformationDialog(this);
     dialog->exec();
+
     delete dialog;
 }
 
@@ -150,5 +149,9 @@ void MainWindow::handlePasswordsCreated(QString passwords)
 void MainWindow::handleWorkerFinished()
 {
     this->ui_->startPushButton->setEnabled(true);
-    ui_->statusbar->showMessage(QString("Пароли (%1 шт.) созданы").arg(this->password_creator_->getPasswordsCount()), STATUSBAR_MESSAGE_TIMEOUT);
+    ui_->statusbar->showMessage(QString("Пароли созданы"), STATUSBAR_MESSAGE_TIMEOUT);
 }
+
+void MainWindow::lockRunningState() { is_running_ = true; }
+
+void MainWindow::unlockRunningState() { is_running_ = false; }

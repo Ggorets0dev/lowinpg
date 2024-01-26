@@ -32,8 +32,6 @@ public:
      */
     MainWindow(QWidget *parent = nullptr);
 
-    ~MainWindow();
-
 signals:
     /**
      * @brief Сигнал для запуска стороннего потока по созданию паролей
@@ -41,6 +39,9 @@ signals:
     void start_creation(void);
 
 private slots:
+    void lockRunningState();
+    void unlockRunningState();
+
     void handleStartButtonClicked();
     void handleExportButtonClicked();
     void handleClearButtonClicked();
@@ -52,12 +53,13 @@ private slots:
     void handleWorkerFinished();
 
 private:
+    // METHODS:
+    std::tuple<bool, bool, bool> getCheckedOptions();
+
+    // VARIABLES:
     Ui::MainWindow *ui_;
     QAction *software_info_action_;
-    PasswordCreator* password_creator_;
-    QThread* worker_thread_;
-
-    std::tuple<bool, bool, bool> getCheckedOptions();
+    bool is_running_ = false;
 };
 
 #endif // MAINWINDOW_H

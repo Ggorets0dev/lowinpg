@@ -31,12 +31,6 @@ public:
      */
     void setParams(ushort pswds_len, ushort pswds_cnt, CheckedOptions options);
 
-    /**
-     * @brief Получить количество сгенерированных паролей
-     * @return Количество сгенерированных паролей
-     */
-    ushort getPasswordsCount();
-
 signals:
     /**
      * @brief Сигнал для отправки созданных паролей
@@ -46,7 +40,7 @@ signals:
     /**
      * @brief Сигнал, сообщающий о завершении запрошенной операции
      */
-    void finished(void);
+    void finished();
 
 public slots:
     /**
